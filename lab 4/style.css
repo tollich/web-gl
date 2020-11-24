@@ -1,0 +1,17 @@
+.flex {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex div{
+    margin-right: 50px;
+}
+
+h3 {
+    margin-top: 5px;
+    margin-bottom: 2px;
+}
+
+h2 {
+    margin-bottom: 5px;
+}
