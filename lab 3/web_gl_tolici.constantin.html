@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Laboratory</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body onload="main()">
+    <canvas id="webgl" width="500" height="500">
+    Please use a browser that supports "canvas"
+    </canvas>
+
+    <div class="functions">
+      <h2>Adding/Removing Objects</h2>
+
+      <div>
+        <button onclick="addFigure('cube')">Add Cube</button>
+        <button onclick="addFigure('pyramid')">Add Pyramid</button>
+        <button onclick="addFigure('cylinder')">Add Cylinder</button>
+        <button onclick="addFigure('conus')">Add Conus</button>
+        <button onclick="addFigure('sphere')">Add Sphere</button>
+        <button onclick="removeFigure()">Remove Last</button>
+      </div>
+
+      <h2>Transforming Objects</h2>
+
+      <p>Choose which figure to transform:
+        <select name="Object number" id="objectIndex">
+          <option value="0">1</option>
+          <option value="1">2</option>
+          <option value="2">3</option>
+        </select>
+      </p>
+      
+      <div>
+        <button onclick="rotate('x')">Rotate X</button>
+        <button onclick="rotate('y')">Rotate Y</button>
+        <button onclick="rotate('z')">Rotate Z</button>
+        <button onclick="stopRotation()">Stop Rotation</button>
+      </div>
+
+      <div class="moves">
+        <div>
+          <p>Move X</p>
+          <span>-3</span>
+          <input type="range" id='moveX' min='-3' max='3' step='0.2' oninput="moveX()">
+          <span>3</span>
+        </div>
+
+        <div>
+          <p>Move Y</p>
+          <span>-3</span>
+          <input type="range" id='moveY' min='-3' max='3' step='0.2' oninput="moveY()">
+          <span>3</span>
+        </div>
+
+        <div>
+          <p>Move Z</p>
+          <span>-3</span>
+          <input type="range" id='moveZ' min='-3' max='3' step='0.2' oninput="moveZ()">
+          <span>3</span>
+        </div>
+
+        <div>
+          <p>Size</p>
+          <span>0.1</span>
+          <input type="range" id='size' min='0.1' max='2' step='0.1' oninput="scale()">
+          <span>2.0</span>
+        </div>
+      </div>
+
+      <h2>Camera</h2>
+      <div class="moves">
+        <div>
+          <p>Camera X</p>
+          <span>-10</span>
+          <input type="range" id='cameraX' min='-10' max='10' step='1' value="5" oninput="updateCamera('cameraX')">
+          <span>10</span>
+        </div>
+
+        <div>
+          <p>Camera Y</p>
+          <span>-10</span>
+          <input type="range" id='cameraY' min='-10' max='10' step='1' value="3" oninput="updateCamera('cameraY')">
+          <span>10</span>
+        </div>
+
+        <div>
+          <p>Camera Z</p>
+          <span>-10</span>
+          <input type="range" id='cameraZ' min='-10' max='10' step='1' value="9" oninput="updateCamera('cameraZ')">
+          <span>10</span>
+        </div>
+      </div>
+
+      <div class="moves">
+        <div>
+          <p>Fov Perspective</p>
+          <span>5</span>
+          <input type="range" id='perspectiveFov' min='5' max='100' value="45" step='1' oninput="updateCamera('perspectiveFov')">
+          <span>100</span>
+        </div>
+
+        <div>
+          <p>Aspect (width/height) Perspective</p>
+          <span>0</span>
+          <input type="range" id='perspectiveAspect' min='0' max='2' value="1" step='0.05' oninput="updateCamera('perspectiveAspect')">
+          <span>2</span>
+        </div>
+
+
+        <div>
+          <p>Near Perspective</p>
+          <span>0.5</span>
+          <input type="range" id='perspectiveNear' min='0.5' max='20' value="1" step='0.5' oninput="updateCamera('perspectiveNear')">
+          <span>20</span>
+        </div>
+
+        <div>
+          <p>Far Perspective</p>
+          <span>5</span>
+          <input type="range" id='perspectiveFar' min='5' max='20' value="15" step='1' oninput="updateCamera('perspectiveFar')">
+          <span>20</span>
+        </div>
+      </div>
+
+      <div>
+        <h1>Light</h1>
+        <div>
+          <label for="ambient">Ambient Light</label>
+          <input type="checkbox" name="Ambient Light" id="ambient" checked>
+        </div>
+
+        <div>
+          <label for="pointed">Pointed Light</label>
+          <input type="checkbox" name="Pointed Light" id="pointed" checked>
+        </div>
+
+        <div>
+          <label for="diffuse">Directioned Light</label>
+          <input type="checkbox" name="Directioned Light" id="diffuse" checked>
+        </div>
+      </div>
+
+      <div>
+        <h1>File reader</h1>
+        <div style="font-size: 18px; margin-bottom: 15px; " >
+          <label style="font-size: 18px;">Obj: </label>
+          <input type="file" id="file-input" style="font-size: 18px; " />
+        </div>
+
+        <div>
+          <label style="font-size: 18px;">Texture: </label>
+          <input texture-number="0" type="file" id="file-loader" style="font-size: 18px;" />	
+        </div>
+      </div>
+      
+    </div>
+
+    
+
+    <script src="web_gl_objects.js"></script>
+    <script src="web_gl_scene.js"></script>
+
+    <script type="text/javascript" src="lib/webgl-utils.js"></script>
+		<script type="text/javascript" src="lib/initShaders.js"></script>
+		<script type="text/javascript" src="lib/MV.js"></script>
+    <script src="lib/webgl-utils.js"></script>
+    <script src="lib/webgl-debug.js"></script>
+    <script src="lib/cuon-utils.js"></script>
+    <script src="lib/cuon-matrix.js"></script>
+  </body>
+</html>
